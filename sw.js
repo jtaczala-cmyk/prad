@@ -1,5 +1,5 @@
-const CACHE = "prad-pl-v1-gh-prad-v2";
-const PRECACHE = ["/prad/", "/prad/favicon.svg", "/prad/apple-touch-icon.png", "/prad/icon-192.png", "/prad/icon-512.png"];
+const CACHE = "prad-pl-v1-gh-prad-v3";
+const PRECACHE = ["/prad/", "/prad/favicon.svg", "/prad/apple-touch-icon.png", "/prad/icon-192.png", "/prad/icon-512.png", "/prad/qr.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

@@ -1,4 +1,4 @@
-const CACHE = "prad-pl-gh-v6";
+const CACHE = "prad-pl-gh-v7";
 const BASE = "/prad/";
 const PRECACHE = [BASE, BASE + "favicon.svg", BASE + "apple-touch-icon.png", BASE + "icon-192.png", BASE + "icon-512.png", BASE + "qr.png", BASE + "extras.js", BASE + "config.js"];
 

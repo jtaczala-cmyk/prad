@@ -35,24 +35,24 @@
    "Przed załączeniem: uprzedź wszystkich, zdejmij uziemienia, wszyscy z dala."
   ],
   "hurt": [
-   "Porażenie? Najpierw odłącz prąd, dopiero potem dotykaj poszkodowanego.",
-   "Nie oddycha? Dzwoń 113 (Norwegia) lub 112 i zacznij RKO.",
-   "Prąd przeszedł przez ciało? Zawsze do lekarza — i zgłoś wypadek."
+   "Najpierw odłącz prąd",
+   "112 – pogotowie",
+   "Porażenie? Zawsze do lekarza"
   ],
   "medkit": [
-   "Pierwsza pomoc przy porażeniu prądem — ćwicz co roku.",
-   "Przed pracą: wiedz, gdzie jest apteczka i defibrylator (AED)."
+   "Pierwsza pomoc – ćwicz co roku",
+   "Defibrylator AED – wiedz, gdzie"
   ],
   "tool": [
-   "Nowe narzędzie? Sprawdź izolację i czy pasuje do napięcia.",
-   "Wskaźnik napięcia zgodny z EN 61243-3 — nie zwykły multimetr."
+   "Sprawdź izolację",
+   "Właściwy wskaźnik napięcia"
   ],
   "armor": [
-   "Środki ochrony indywidualnej dobierz do ryzyka — także łuku elektrycznego."
+   "Środki ochrony na sobie"
   ],
   "coffee": [
-   "Przerwa to też BHP: zmęczenie sprzyja błędom.",
-   "Po przerwie sprawdź, czy zabezpieczenia są wciąż na miejscu."
+   "Zmęczony? Zrób przerwę",
+   "Po przerwie: sprawdź blokady"
   ],
   "titles": [
    "Praktykant od zamiatania",

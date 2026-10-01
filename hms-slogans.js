@@ -1,15 +1,15 @@
 /*! Copyright (c) 2026 Jacek Mariusz Taczała. All rights reserved.
  *  Proprietary and not open source: no copying, modification, distribution or commercial use
  *  without prior written permission. Contact: https://github.com/jtaczala-cmyk/prad/issues. See LICENSE. */
-/* HMS layer (2026-10-01, same as the /strom/demo/ HMS layer):
+/* BHP layer (2026-10-01, same as the /strom/demo/ layer):
    1) enemy name plates off; each enemy type is introduced once per round in a small corner chip (2.5 s); wave banners off
-   2) 3–4 short animated HMS/FSE slogans per round in the top band at ~54/41/27/13 s left; no new enemy wave starts while a
+   2) 3–4 short animated BHP slogans per round in the top band at ~54/41/27/13 s left; no new enemy wave starts while a
       slogan plays; pop-ups wait until it ends; never blocks input (pointer-events:none)
    3) "learned" list on the game-over card   4) synthesised heartbeat following the enemy count (respects mute)
    Hooks window.__phaserGame / window.__store. */
 (function () {
   "use strict";
-  var CFG = {"slogans": [{"t": "112 – pogotowie", "k": "amb", "e": "🚑"}, {"t": "Zablokuj i oznacz", "k": "lock", "e": "🔒"}, {"t": "Zmierz, zanim dotkniesz", "k": "meter", "e": "🔎"}, {"t": "Środki ochrony na sobie", "k": "helmet", "e": "⛑️"}, {"t": "Ocena ryzyka przed pracą", "k": "sja", "e": "📋"}, {"t": "112 – straż pożarna", "k": "fire", "e": "🚒"}, {"t": "Masz wątpliwość? Stop", "k": "stop", "e": "🛑"}, {"t": "Wyłącz – zabezpiecz – sprawdź", "k": "steps", "e": "🔌"}, {"t": "112 – policja", "k": "police", "e": "🚓"}, {"t": "Defibrylator AED – wiedz, gdzie", "k": "aed", "e": "❤️"}, {"t": "Zgłaszaj zdarzenia", "k": "ruh", "e": "📣"}, {"t": "Sprawdź tester przed i po", "k": "test", "e": "✅"}, {"t": "Odstęp od napięcia", "k": "dist", "e": "⚡"}, {"t": "Porażenie? Odłącz prąd", "k": "breaker", "e": "🔌"}, {"t": "Uziem i zewrzyj", "k": "ground", "e": "🔗"}, {"t": "Pierwsza pomoc – ćwicz co roku", "k": "generic", "e": "🩹"}], "ui": {"learned": "Dziś nauczyłeś się:", "progress": "Znasz już {n} z {t} haseł BHP. Graj dalej, by poznać wszystkie.", "done": "Znasz wszystkie {t} haseł BHP. Kolejne rundy je powtarzają.", "note": "To nie zastępuje kursu FSE."}};
+  var CFG = {"slogans": [{"t": "112 – pogotowie", "k": "amb", "e": "🚑"}, {"t": "Zablokuj i oznacz", "k": "lock", "e": "🔒"}, {"t": "Zmierz, zanim dotkniesz", "k": "meter", "e": "🔎"}, {"t": "BHP – środki ochrony", "k": "helmet", "e": "⛑️"}, {"t": "BHP – ocena ryzyka", "k": "sja", "e": "📋"}, {"t": "112 – straż pożarna", "k": "fire", "e": "🚒"}, {"t": "Masz wątpliwość? Stop", "k": "stop", "e": "🛑"}, {"t": "Wyłącz – zabezpiecz – sprawdź", "k": "steps", "e": "🔌"}, {"t": "112 – policja", "k": "police", "e": "🚓"}, {"t": "Defibrylator AED – wiedz, gdzie", "k": "aed", "e": "❤️"}, {"t": "Zgłoś zdarzenie", "k": "ruh", "e": "📣"}, {"t": "Sprawdź tester przed i po", "k": "test", "e": "✅"}, {"t": "Odstęp od napięcia", "k": "dist", "e": "⚡"}, {"t": "Porażenie? Odłącz prąd", "k": "breaker", "e": "🔌"}, {"t": "Uziem i zewrzyj", "k": "ground", "e": "🔗"}, {"t": "Pierwsza pomoc – ćwicz co roku", "k": "generic", "e": "🩹"}], "ui": {"learned": "Dziś nauczyłeś się:", "progress": "Znasz już {n} z {t} haseł BHP. Graj dalej, by poznać wszystkie.", "done": "Znasz wszystkie {t} haseł BHP. Kolejne rundy je powtarzają.", "note": "To nie zastępuje kursu BHP."}};
   var L = CFG.slogans, U = CFG.ui, KEY = "prad-slogans-v1";
   var mqR = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)"), reduced = !!(mqR && mqR.matches);
   try { mqR.addEventListener("change", function () { reduced = mqR.matches; }); } catch (e) {}
@@ -273,7 +273,7 @@
       rr(x - 15 * u, y - 20 * u, 30 * u, 40 * u, 3 * u); g.fillStyle = "#a16207"; g.fill();
       rr(x - 12.5 * u, y - 16.5 * u, 25 * u, 34 * u, 1.5 * u); g.fillStyle = "#fafaf9"; g.fill();
       rr(x - 6 * u, y - 22 * u, 12 * u, 5.5 * u, 1.5 * u); g.fillStyle = "#9ca3af"; g.fill();
-      g.font = "600 " + (5.5 * u) + "px " + FONT; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#1c1917"; (function (w) { var f = 5.5 * u; while (g.measureText(w).width > 23 * u && f > 3) { f -= .3; g.font = "600 " + f + "px " + FONT; } g.fillText(w, x, y - 11 * u); })("RYZYKO");
+      g.font = "600 " + (5.5 * u) + "px " + FONT; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#1c1917"; (function (w) { var f = 5.5 * u; while (g.measureText(w).width > 23 * u && f > 3) { f -= .3; g.font = "600 " + f + "px " + FONT; } g.fillText(w, x, y - 11 * u); })("BHP");
       for (var i = 0; i < 3; i++) { var ry = y - 3 * u + i * 7.5 * u; g.strokeStyle = "#57534e"; g.lineWidth = .8 * u; g.strokeRect(x - 10 * u, ry - 2.2 * u, 4.4 * u, 4.4 * u);
         g.fillStyle = "#d6d3d1"; g.fillRect(x - 3.5 * u, ry - 1 * u, 12 * u - i * 2 * u, 2 * u); check(x - 7.8 * u, ry - .4 * u, 5 * u, seg(t, .45 + i * .3, .7 + i * .3), "#16a34a"); }
       if (t > 1.4) { var p = seg(t, 1.4, 1.9); g.save(); g.translate(x + 13 * u, y + 15 * u); g.rotate(-.6 + Math.sin(t * 14) * .08 * (1 - p)); g.fillStyle = "#facc15"; g.fillRect(-1.3 * u, -11 * u, 2.6 * u, 10 * u); g.fillStyle = "#1c1917"; g.beginPath(); g.moveTo(-1.3 * u, -1 * u); g.lineTo(1.3 * u, -1 * u); g.lineTo(0, 2 * u); g.fill(); g.restore(); }

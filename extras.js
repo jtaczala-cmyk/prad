@@ -27,7 +27,7 @@
    "Zasada 4: uziem i zewrzyj — w WN zawsze, w nn po ocenie ryzyka.",
    "Zasada 5: osłoń lub wygrodź sąsiednie części czynne.",
    "Każda praca ma wyznaczoną osobę odpowiedzialną za pracę (AFA/LFS).",
-   "Przed pracą: ocena ryzyka i analiza bezpiecznej pracy (SJA).",
+   "Przed pracą: zrób ocenę ryzyka.",
    "Tester napięcia sprawdź tuż przed i tuż po pomiarze.",
    "Da się wyłączyć? Pracuj bez napięcia. Praca pod napięciem tylko po szkoleniu.",
    "Nie da się bezpiecznie? Przerwij pracę i zgłoś to.",
@@ -48,7 +48,7 @@
    "Właściwy wskaźnik napięcia"
   ],
   "armor": [
-   "Środki ochrony na sobie"
+   "BHP – środki ochrony"
   ],
   "coffee": [
    "Zmęczony? Zrób przerwę",
@@ -67,9 +67,9 @@
    "Zasada: 5 zasad bezpieczeństwa — wyłącz, zabezpiecz przed ponownym załączeniem, sprawdź brak napięcia, uziem i zewrzyj, osłoń sąsiednie części czynne.",
    "Zasada: zawsze co najmniej dwie bariery bezpieczeństwa — gdy jedna zawiedzie, druga nadal chroni.",
    "Zasada: jasne role — osoba odpowiedzialna za urządzenie i osoba odpowiedzialna za pracę (AFA/LFS).",
-   "Zasada: przed pracą zbierz informacje o instalacji, oceń ryzyko i zrób SJA.",
+   "Zasada: przed pracą zbierz informacje o instalacji i zrób ocenę ryzyka.",
    "Zasada: tester napięcia sprawdź tuż przed i tuż po sprawdzeniu braku napięcia.",
-   "Ta gra to nie kurs FSE. Szkolenie FSE i z pierwszej pomocy — co roku, najpóźniej po 12 miesiącach."
+   "Ta gra nie zastępuje szkolenia BHP. Szkolenie BHP przy urządzeniach elektrycznych i z pierwszej pomocy — co roku, najpóźniej po 12 miesiącach."
   ]
  }
 };

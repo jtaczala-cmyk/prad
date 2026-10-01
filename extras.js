@@ -69,7 +69,7 @@
    "Zasada: jasne role — osoba odpowiedzialna za urządzenie i osoba odpowiedzialna za pracę (AFA/LFS).",
    "Zasada: przed pracą zbierz informacje o instalacji i zrób ocenę ryzyka.",
    "Zasada: tester napięcia sprawdź tuż przed i tuż po sprawdzeniu braku napięcia.",
-   "Ta gra nie zastępuje szkolenia BHP. Szkolenie BHP przy urządzeniach elektrycznych i z pierwszej pomocy — co roku, najpóźniej po 12 miesiącach."
+   "Ta gra nie zastępuje szkolenia BHP. Regularnie odświeżaj szkolenie BHP i pierwszą pomoc."
   ]
  }
 };

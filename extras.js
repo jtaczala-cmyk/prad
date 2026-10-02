@@ -47,7 +47,11 @@
    "Właściwy wskaźnik napięcia"
   ],
   "armor": [
-   "BHP – środki ochrony"
+   "BHP – środki ochrony",
+   "Kask, okulary, rękawice",
+   "Zniszczony sprzęt? Wymień go",
+   "Buty ochronne – zawsze",
+   "Rękawice ochronne zawsze na rękach"
   ],
   "coffee": [
    "Zmęczony? Zrób przerwę",

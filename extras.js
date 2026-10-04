@@ -36,7 +36,7 @@
   ],
   "hurt": [
    "Najpierw odłącz prąd",
-   "112 – pogotowie"
+   "113 – pogotowie"
   ],
   "medkit": [
    "Pierwsza pomoc – ćwicz co roku",

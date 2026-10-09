@@ -6,7 +6,9 @@
    2) 3–4 short animated BHP slogans per round in the top band at ~54/41/27/13 s left; no new enemy wave starts while a
       slogan plays; pop-ups wait until it ends; never blocks input (pointer-events:none)
    3) "learned" list on the game-over card   4) synthesised heartbeat following the enemy count (respects mute)
-   Hooks window.__phaserGame / window.__store. */
+   Hooks window.__phaserGame / window.__store.
+   2026-10-09 (owner request): ALL bubbles off - control hint at round start, enemy corner chips and slogan set-pieces
+   are disabled (NO_BUBBLES); heartbeat, name-plate/wave-banner suppression stay. */
 (function () {
   "use strict";
   var CFG = {"slogans": [{"t": "113 – pogotowie", "k": "amb", "e": "🚑"}, {"t": "Zablokuj i oznacz", "k": "lock", "e": "🔒"}, {"t": "Zmierz, zanim dotkniesz", "k": "meter", "e": "🔎"}, {"t": "BHP – środki ochrony", "k": "helmet", "e": "⛑️"}, {"t": "BHP – ocena ryzyka", "k": "sja", "e": "📋"}, {"t": "110 – straż pożarna", "k": "fire", "e": "🚒"}, {"t": "Masz wątpliwość? Stop", "k": "stop", "e": "🛑"}, {"t": "Wyłącz – zabezpiecz – sprawdź", "k": "steps", "e": "🔌"}, {"t": "112 – policja", "k": "police", "e": "🚓"}, {"t": "Defibrylator AED – wiedz, gdzie", "k": "aed", "e": "❤️"}, {"t": "Zgłoś zdarzenie", "k": "ruh", "e": "📣"}, {"t": "Sprawdź tester przed i po", "k": "test", "e": "✅"}, {"t": "Odstęp od napięcia", "k": "dist", "e": "⚡"}, {"t": "Porażenie? Odłącz prąd", "k": "breaker", "e": "🔌"}, {"t": "Uziem i zewrzyj", "k": "ground", "e": "🔗"}, {"t": "Pierwsza pomoc – ćwicz co roku", "k": "generic", "e": "🩹"}], "ui": {"learned": "Dziś nauczyłeś się:", "progress": "Znasz już {n} z {t} haseł BHP. Graj dalej, by poznać wszystkie.", "done": "Znasz wszystkie {t} haseł BHP. Kolejne rundy je powtarzają.", "note": "To nie zastępuje kursu BHP."}};
@@ -39,6 +41,9 @@
     ".sm-learn li{margin:0;padding:3px 9px 3px 6px;border-radius:999px;background:rgba(250,204,21,.13);border:1px solid rgba(250,204,21,.35);font:600 13px/1.3 Oswald,'IBM Plex Sans',sans-serif;letter-spacing:.02em;color:#fef3c7;white-space:nowrap}" +
     ".sm-learn li span{margin-right:5px}.sm-learn p{margin:7px 0 0;font:400 11px/1.35 'IBM Plex Sans',system-ui,sans-serif;color:#a8a29e}";
   (document.head || document.documentElement).appendChild(css);
+  var NO_BUBBLES = true;
+  /* hide the control-hint bubble shown at round start (rendered by the app bundle) */
+  if (NO_BUBBLES) css.textContent += ".top-\\[38\\%\\]{display:none!important}";
 
   /* ---------------- 1) enemy introductions (corner chip, once per type per round) ---------------- */
   var DESC = {"plumber": ["Hydraulik", "szybki, podchodzi blisko"], "clerk": ["Biurowiec", "rzuca rysunkami"], "bricklayer": ["Murarz", "rzuca cegłami"], "welder": ["Spawacz", "iskry spawalnicze"], "foreman": ["Brygadzista", "fala uderzeniowa – trzymaj dystans"], "manager": ["Kierownik budowy", "ostatni szef"]};
@@ -48,6 +53,7 @@
     chip = document.createElement("div"); chip.id = "hms-chip"; chip.setAttribute("aria-live", "polite"); document.body.appendChild(chip); return chip;
   }
   function chipNext() {
+    if (NO_BUBBLES) { chipQ = []; return; }
     if (chipBusy || !chipQ.length) return;
     var wait = coachUntil - Date.now(); if (wait > 0) { chipBusy = true; setTimeout(function () { chipBusy = false; chipNext(); }, wait + 50); return; }
     var r = chipQ.shift(), d = DESC[r] || [r, ""], c = chipEl();
@@ -355,6 +361,7 @@
   }
   function stopAnim() { anim = null; if (raf) cancelAnimationFrame(raf); raf = 0; if (g) g.clearRect(0, 0, W, H); if (cv) cv.style.display = "none"; }
   function playSlogan(i) {
+    if (NO_BUBBLES) return 0;
     canvas(); fit(); measureSafe();
     var item = L[i], mk = THEMES[item.k] || THEMES.generic, th = mk(item);
     anim = { i: i, item: item, th: th, t: 0, until: Date.now() + th.dur * 1000 };
@@ -447,7 +454,7 @@
   function popupVisible() { var p = document.getElementById("extras-pop"); return !!(p && (p.style.opacity === "1" || parseFloat(getComputedStyle(p).opacity) > 0.02)); } /* incl. fade-out */
   var SLOTS = [54, 41, 27, 13]; /* target timeLeft per slogan: spread over the whole 60 s */
   function schedule(sc, os, dt) {
-    if (!round || anim) return;
+    if (NO_BUBBLES || !round || anim) return;
     var k = round.shown.length + round.skipped; if (k >= SLOTS.length) return;
     var t = sc.timeLeft, tg = SLOTS[k];
     if (t > tg + 2.5) return;                               /* window opens 2.5 s before the target */

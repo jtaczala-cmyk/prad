@@ -527,7 +527,7 @@
 /* ---- leaderboard notice (privacy, 2026-09-30) ---- */
 (function () {
   "use strict";
-  var TXT = "Nick i wynik trafią do publicznego rankingu online. Nie wpisuj imienia i nazwiska ani e-maila.", LINK = "Prywatność", BOX = "Pokaż mój wynik w rankingu online", HREF = "/prad/prywatnosc/", KEY = "lb-online-off";
+  var TXT = "Nick i wynik trafią do publicznego rankingu online. Nie wpisuj imienia i nazwiska ani e-maila.", LINK = "Prywatność", BOX = "Mam co najmniej 16 lat (18 w Indiach) i chcę pokazać nick, punkty, KO i falę w rankingu online", HREF = "/prad/prywatnosc/", KEY = "lb-online-off";
   function on() { return !!(window.__lb && window.__lb.online !== undefined && (window.LEADERBOARD_CONFIG || {}).supabaseUrl); }
   function tick() {
     if (!on()) return;

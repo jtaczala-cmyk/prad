@@ -1,0 +1,22 @@
+{
+  "name": "PRĄD",
+  "short_name": "PRĄD",
+  "lang": "pl",
+  "start_url": "/prad/t-tilt-c27d/",
+  "scope": "/prad/t-tilt-c27d/",
+  "display": "standalone",
+  "background_color": "#12110f",
+  "theme_color": "#12110f",
+  "icons": [
+    {
+      "src": "/prad/t-tilt-c27d/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/prad/t-tilt-c27d/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

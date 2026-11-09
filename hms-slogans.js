@@ -46,7 +46,7 @@
   if (NO_BUBBLES) css.textContent += ".top-\\[38\\%\\]{display:none!important}";
 
   /* ---------------- 1) enemy introductions (corner chip, once per type per round) ---------------- */
-  var DESC = {"plumber": ["Hydraulik", "szybki, podchodzi blisko"], "clerk": ["Biurowiec", "rzuca rysunkami"], "bricklayer": ["Murarz", "rzuca cegłami"], "welder": ["Spawacz", "iskry spawalnicze"], "foreman": ["Brygadzista", "fala uderzeniowa – trzymaj dystans"], "manager": ["Kierownik budowy", "ostatni szef"]};
+  var DESC = {"plumber": ["Szybki", "szybki, podchodzi blisko"], "clerk": ["Biurowiec", "rzuca rysunkami"], "bricklayer": ["Cegły", "rzuca cegłami"], "welder": ["Iskry", "sypie iskrami"], "foreman": ["Fala", "fala uderzeniowa – trzymaj dystans"], "manager": ["Ostatni", "pojawia się na końcu"]};
   var chip = null, chipQ = [], chipBusy = false, seenRoles = {}, coachUntil = 0;
   function chipEl() {
     if (chip && document.body.contains(chip)) return chip;

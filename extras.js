@@ -19,7 +19,7 @@
  "text": {
   "soundOn": "Dźwięk włączony",
   "soundOff": "Dźwięk wyłączony",
-  "start": "Jedna minuta. Kierownik liczy.",
+  "start": "Jedna minuta. Czas leci.",
   "random": [
    "Zasada 1: wyłącz — odłącz od wszystkich źródeł zasilania.",
    "Zasada 2: zabezpiecz przed ponownym załączeniem — kłódka i tabliczka.",
@@ -58,10 +58,10 @@
    "Po przerwie: sprawdź blokady"
   ],
   "titles": [
-   "Praktykant od zamiatania",
-   "Pomocnik na próbę",
-   "Majster",
-   "Elektryk z uprawnieniami",
+   "Pierwszy krok",
+   "Coraz pewniej",
+   "Pewna ręka",
+   "Pełna minuta",
    "Legenda rozdzielni"
   ],
   "titleLabel": "Twój tytuł:",

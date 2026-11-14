@@ -630,3 +630,213 @@ if (on) {
     + ".qrl-scroll{overflow:auto}";
   (document.head || document.documentElement).appendChild(st);
 })();
+
+/* ---- game-over result postcard: share this round, not the generic blurb ---- */
+(function () {
+  "use strict";
+  var LABEL = "Udostępnij wynik";
+  var LINK = "stop60.no/strom";
+  var busy = false;
+
+  function store() {
+    try { return window.__store && window.__store.getState && window.__store.getState(); }
+    catch (e) { return null; }
+  }
+  function num(v) {
+    v = +v;
+    if (!isFinite(v) || v < 0) return 0;
+    return Math.floor(v);
+  }
+  /* Line 2 is the score. A record line is added only when this round owns the stored high score.
+     setHigh() runs before phase becomes "over", so the new record is score >= highScore, not score > highScore. */
+  function postcard(s) {
+    var score = num(s && s.score), kills = num(s && s.kills), high = num(s && s.highScore);
+    var lines = ["PRĄD", "\u26A1 " + score + " pkt \u00b7 " + kills + " KO"];
+    if (score > 0 && score >= high) lines.push("\uD83C\uDFC6 Nowy rekord");
+    lines.push(LINK);
+    return lines.join("\n");
+  }
+  function card() { return document.querySelector(".goscroll"); }
+  function scoreLine(root) {
+    var ps = root.querySelectorAll("p.font-mono");
+    for (var i = 0; i < ps.length; i++) {
+      var t = ps[i].textContent || "";
+      if (t.indexOf("pkt") !== -1 && t.indexOf("KO") !== -1) return ps[i];
+    }
+    return null;
+  }
+  function restartBtn(root) {
+    var btns = root.querySelectorAll("button");
+    for (var i = 0; i < btns.length; i++) {
+      if ((btns[i].textContent || "").indexOf("Jeszcze raz") !== -1) return btns[i];
+    }
+    return null;
+  }
+  function shareBtn(root) {
+    var btns = root.querySelectorAll("button");
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i].querySelector("svg.lucide-share")) return btns[i];
+    }
+    return null;
+  }
+  function setLabel(btn, text) {
+    var nodes = btn.childNodes, hit = false;
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].nodeType === 3 && /\S/.test(nodes[i].nodeValue || "")) {
+        hit = true;
+        if (nodes[i].nodeValue !== text) nodes[i].nodeValue = text;
+      }
+    }
+    if (!hit) btn.appendChild(document.createTextNode(text));
+  }
+  function track() {
+    try { if (typeof window.__track === "function") window.__track("share"); } catch (e) {}
+  }
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0";
+    document.body.appendChild(ta);
+    var ok = false;
+    try { ta.focus(); ta.select(); ok = document.execCommand("copy"); } catch (e) {}
+    ta.remove();
+    return ok;
+  }
+  function markCopied() {
+    var grid = document.getElementById("overGrid");
+    if (!grid) return;
+    grid.setAttribute("data-copied", "1");
+    clearTimeout(markCopied.t);
+    markCopied.t = setTimeout(function () {
+      var g = document.getElementById("overGrid");
+      if (g) g.removeAttribute("data-copied");
+    }, 1600);
+  }
+  function finish(ok, copied) {
+    busy = false;
+    if (!ok) return;
+    track();
+    if (copied) markCopied();
+  }
+  function promptCopy(text) {
+    var r = null;
+    try { r = window.prompt("Skopiuj wynik", text); } catch (e) { r = null; }
+    finish(r != null, true);
+  }
+  function afterClipboardFail(text) {
+    if (legacyCopy(text)) finish(true, true);
+    else promptCopy(text);
+  }
+  function copyText(text) {
+    var clip = navigator.clipboard && navigator.clipboard.writeText;
+    if (clip) {
+      try {
+        Promise.resolve(clip.call(navigator.clipboard, text)).then(function () { finish(true, true); }, function () { afterClipboardFail(text); });
+      } catch (e) { afterClipboardFail(text); }
+      return;
+    }
+    afterClipboardFail(text);
+  }
+  function shareNow() {
+    if (busy) return;
+    var s = store();
+    if (!s || s.phase !== "over") return;
+    var text = postcard(s);
+    busy = true;
+    if (typeof navigator.share === "function") {
+      var p;
+      try { p = navigator.share({ title: "PR\u0104D", text: text }); }
+      catch (e) {
+        if (e && e.name === "AbortError") { busy = false; return; }
+        copyText(text);
+        return;
+      }
+      Promise.resolve(p).then(function () { finish(true, false); }, function (e) {
+        if (e && e.name === "AbortError") { busy = false; return; }
+        copyText(text);
+      });
+      return;
+    }
+    copyText(text);
+  }
+  function bindGrid(grid) {
+    if (grid.getAttribute("data-bound")) return;
+    grid.setAttribute("data-bound", "1");
+    grid.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      shareNow();
+    });
+    grid.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); shareNow(); }
+    });
+  }
+  var painting = false;
+  function paint() {
+    if (painting) return;
+    painting = true;
+    try {
+      var s = store();
+      if (!s || s.phase !== "over") {
+        var old = document.getElementById("overGrid");
+        if (old) old.remove();
+        return;
+      }
+      var root = card();
+      if (!root) return;
+      if (!root.__ogWatch) {
+        root.__ogWatch = 1;
+        new MutationObserver(function () { paint(); }).observe(root, { childList: true, subtree: true, characterData: true });
+      }
+      var text = postcard(s);
+      var grid = document.getElementById("overGrid");
+      if (grid && !root.contains(grid)) { grid.remove(); grid = null; }
+      if (!grid) {
+        grid = document.createElement("pre");
+        grid.id = "overGrid";
+        grid.setAttribute("role", "button");
+        grid.tabIndex = 0;
+        grid.setAttribute("aria-label", LABEL);
+        bindGrid(grid);
+        var line = scoreLine(root);
+        var again = restartBtn(root);
+        if (line && line.parentNode) line.after(grid);
+        else if (again && again.parentNode) again.before(grid);
+        else root.appendChild(grid);
+      }
+      if (grid.textContent !== text) grid.textContent = text;
+      var btn = shareBtn(root);
+      if (btn) setLabel(btn, LABEL);
+    } finally { painting = false; }
+  }
+  if (!document.getElementById("overGrid-css")) {
+    var st = document.createElement("style");
+    st.id = "overGrid-css";
+    st.textContent = "#overGrid{display:block;box-sizing:border-box;width:100%;max-width:18em;margin:10px auto 4px;padding:10px 12px;background:rgba(0,0,0,.28);border:1px solid rgba(45,212,191,.5);border-radius:12px;font:600 16px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;text-align:center;letter-spacing:.02em;cursor:pointer;color:#f5f1e8;-webkit-user-select:text;user-select:text}" +
+      "#overGrid[data-copied='1']{border-color:#5eead4}" +
+      "#overGrid:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px}";
+    (document.head || document.documentElement).appendChild(st);
+  }
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var btn = t.closest("button");
+    if (!btn || !btn.querySelector("svg.lucide-share")) return;
+    var root = card();
+    if (!root || !root.contains(btn)) return;
+    var s = store();
+    if (!s || s.phase !== "over") return;
+    e.preventDefault();
+    e.stopPropagation();
+    shareNow();
+  }, true);
+  function arm() {
+    var st = window.__store;
+    if (st && st.subscribe && !arm.done) { arm.done = true; st.subscribe(function () { paint(); }); }
+    paint();
+  }
+  function boot() { arm(); if (!boot.t) boot.t = setInterval(arm, 400); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();

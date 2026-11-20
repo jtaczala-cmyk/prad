@@ -635,7 +635,7 @@ if (on) {
 (function () {
   "use strict";
   var LABEL = "Udostępnij wynik";
-  var LINK = "stop60.no/strom";
+  var LINK = "stop60.no/prad";
   var busy = false;
 
   function store() {
